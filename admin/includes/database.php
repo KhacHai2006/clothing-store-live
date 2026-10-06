@@ -4,14 +4,16 @@
         private $user;
         private $passwd;
         private $database;
+        private $port;
         private $conn;
 
         public function __construct() {
-            $this->host = "localhost";
-            $this->user = "root";
-            $this->passwd = "";
+            $this->host = "gateway01.ap-southeast-1.prod.aws.tidbcloud.com";
+            $this->user = "2PTBkZLxrYwrgwr.root";
+            $this->passwd = "wY4RzYVZcF0z9dxL";
             $this->database = "clothingshop";
-            $this->conn = new mysqli($this->host,$this->user,$this->passwd,$this->database);
+            $this->port = 4000;
+            $this->conn = new mysqli($this->host,$this->user,$this->passwd,$this->database,$this->port);
 
         }
         public function setConnect()
@@ -19,7 +21,7 @@
             
             echo "<script>alert('".$this->host.$this->user.$this->passwd.$this->database."')</script>";
 
-            $this->conn = new mysqli($this->host,$this->user,$this->passwd,$this->database);
+            $this->conn = new mysqli($this->host,$this->user,$this->passwd,$this->database,$this->port);
 
             if($this->conn->connect_errno) {
                 echo "<script>alert('Kết Nối Thất Bại')</script>";

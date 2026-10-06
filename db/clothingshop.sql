@@ -243,29 +243,6 @@ ALTER TABLE `sp`
   ADD KEY `MA_LOAISP` (`MA_LOAISP`),
   ADD KEY `MA_HANGSX` (`MA_HANGSX`);
 
---
--- AUTO_INCREMENT cho các bảng đã đổ
---
-
---
--- AUTO_INCREMENT cho bảng `hoadon`
---
-ALTER TABLE `hoadon`
-  MODIFY `MA_HD` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1612051339;
-
---
--- AUTO_INCREMENT cho bảng `kh`
---
-ALTER TABLE `kh`
-  MODIFY `MA_KH` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
-
---
--- Các ràng buộc cho các bảng đã đổ
---
-
---
--- Các ràng buộc cho bảng `ct_hoadon`
---
 ALTER TABLE `ct_hoadon`
   ADD CONSTRAINT `FK_HD` FOREIGN KEY (`MA_HD`) REFERENCES `hoadon` (`MA_HD`),
   ADD CONSTRAINT `FK_SP` FOREIGN KEY (`MA_SP`) REFERENCES `sp` (`MA_SP`);
