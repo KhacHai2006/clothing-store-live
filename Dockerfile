@@ -9,6 +9,10 @@ RUN apt-get update \
 # Copy toàn bộ code vào thư mục web của Apache
 COPY . /var/www/html/
 
-# Bật rewrite mod và mở cổng 80
+# Render routes web traffic to PORT (10000 by default).
 RUN a2enmod rewrite
-EXPOSE 80
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+EXPOSE 10000
+
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
