@@ -13,15 +13,13 @@
             $this->passwd = "wY4RzYVZcF0z9dxL";
             $this->database = "clothingshop";
             $this->port = 4000;
-            $this->conn = new mysqli($this->host,$this->user,$this->passwd,$this->database,$this->port);
+            $this->conn = mysqli_init();
+            $this->conn->ssl_set(NULL, NULL, "/etc/ssl/certs/ca-certificates.crt", NULL, NULL);
+            $this->conn->real_connect($this->host, $this->user, $this->passwd, $this->database, $this->port, NULL, MYSQLI_CLIENT_SSL);
 
         }
         public function setConnect()
         {
-            
-            echo "<script>alert('".$this->host.$this->user.$this->passwd.$this->database."')</script>";
-
-            $this->conn = new mysqli($this->host,$this->user,$this->passwd,$this->database,$this->port);
 
             if($this->conn->connect_errno) {
                 echo "<script>alert('Kết Nối Thất Bại')</script>";
