@@ -1,4 +1,6 @@
 <?php
+    mysqli_report(MYSQLI_REPORT_OFF);
+
     class MyConnect {
         private $host;
         private $user;
@@ -8,14 +10,37 @@
         private $conn;
 
         public function __construct() {
-            $this->host = "gateway01.ap-southeast-1.prod.aws.tidbcloud.com";
-            $this->user = "2PTBkZLxrYwrgwr.root";
-            $this->passwd = "wY4RzYVZcF0z9dxL";
-            $this->database = "clothingshop";
-            $this->port = 4000;
+            // Configure these values with environment variables in production.
+            // Defaults are suitable for a local MySQL/MariaDB installation.
+            $this->host = getenv('DB_HOST') ?: '127.0.0.1';
+            $this->user = getenv('DB_USER') ?: 'root';
+            $this->passwd = getenv('DB_PASSWORD') ?: '';
+            $this->database = getenv('DB_NAME') ?: 'clothingshop';
+            $this->port = (int) (getenv('DB_PORT') ?: 3306);
             $this->conn = mysqli_init();
-            $this->conn->ssl_set(NULL, NULL, "/etc/ssl/certs/ca-certificates.crt", NULL, NULL);
-            $this->conn->real_connect($this->host, $this->user, $this->passwd, $this->database, $this->port, NULL, MYSQLI_CLIENT_SSL);
+
+            $ssl = filter_var(getenv('DB_SSL') ?: 'false', FILTER_VALIDATE_BOOLEAN);
+            if ($ssl) {
+                $caFile = getenv('DB_SSL_CA') ?: '/etc/ssl/certs/ca-certificates.crt';
+                $this->conn->ssl_set(NULL, NULL, $caFile, NULL, NULL);
+                $this->conn->real_connect(
+                    $this->host,
+                    $this->user,
+                    $this->passwd,
+                    $this->database,
+                    $this->port,
+                    NULL,
+                    MYSQLI_CLIENT_SSL
+                );
+            } else {
+                $this->conn->real_connect(
+                    $this->host,
+                    $this->user,
+                    $this->passwd,
+                    $this->database,
+                    $this->port
+                );
+            }
 
         }
         public function setConnect()
